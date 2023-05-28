@@ -1,19 +1,18 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { login, register, logout , addToFavorites, removeFromFavorites } from './userSlice';
+import { login, register, logout , addToFavorites, removeFromFavorites } from '../slices/userSlice';
+import * as settings from "../../settings"
 
 axios.defaults.withCredentials = true;
 
-export const axiosURL = process.env.REACT_APP_AXIOS_URL;
 
 export const userLogin = (email, password) => async (dispatch) => {
     try {
-        await axios.post(`${axiosURL}/users/login`, {
+        await axios.post(`${settings.axiosURL}/users/login`, {
             email,
             password
         })
 
-        const payload = await axios.get(`${axiosURL}/users/secret`)
+        const payload = await axios.get(`${settings.axiosURL}/users/secret`)
 
         const userData = payload.data
         await dispatch(login(userData))
@@ -25,7 +24,7 @@ export const userLogin = (email, password) => async (dispatch) => {
 
 export const userRegister = (userName, email, password) => async (dispatch) => {
     try {
-        const response =  await axios.post(`${axiosURL}/users/signup`, {
+        const response =  await axios.post(`${settings.axiosURL}/users/signup`, {
             userName,
             email,
             password
@@ -41,7 +40,7 @@ export const userRegister = (userName, email, password) => async (dispatch) => {
 
 export const userLogout = () => async (dispatch) => {
   try {
-        await axios.post(`${axiosURL}/users/logout`)
+        await axios.post(`${settings.axiosURL}/users/logout`)
 
         dispatch(logout())
   } catch (error) {
@@ -52,8 +51,9 @@ export const userLogout = () => async (dispatch) => {
 export const addMovieToFavorites = (movieId) => async (dispatch, getState) => {
   const { user } = getState();
   try {
-    const response = await axios.put(`${axiosURL}/users/${user.userData.id}/addFavorite`, { movieId });
+    const response = await axios.put(`${settings.axiosURL}/users/${user.userData.id}/addFavorite`, { movieId });
     const { data } = response;
+
     dispatch(addToFavorites(data));
 
   } catch (error) {
@@ -61,30 +61,15 @@ export const addMovieToFavorites = (movieId) => async (dispatch, getState) => {
   }
 }
 
-// export const addMovieToFavorites = createAsyncThunk(
-//   'users/addToFavorites',
-//   async (movieId, { dispatch, getState }) => {
-//     const { user } = getState();
-//     try {
-//       const response = await axios.put(`/api/users/${user.userData.id}/addFavorite`, { movieId });
-//       const { data } = response;
-//       dispatch(addToFavorites(data));
-//     } catch (error) {
-//       throw Error(error);
-//     }
-//   }
-// );
 
-export const removeMovieFromFavorites = createAsyncThunk(
-  'users/removeFromFavorites',
-  async (movieId, { dispatch, getState }) => {
-    const { user } = getState();
-    try {
-      const response = await axios.put(`/api/users/${user.userData.id}/removeFavorite`, { movieId });
-      const { data } = response;
-      dispatch(removeFromFavorites(data));
-    } catch (error) {
-      throw Error(error);
-    }
+export const removeMovieFromFavorites = (movieId) => async (dispatch, getState) => {
+  const { user } = getState();
+  try {
+    const response = await axios.put(`${settings.axiosURL}/users/${user.userData.id}/removeFavorite`, { movieId });
+    const { data } = response;
+    dispatch(removeFromFavorites(data));
+  } catch (error) {
+    console.error("Remove from fav: ", error);
   }
-);
+}
+
