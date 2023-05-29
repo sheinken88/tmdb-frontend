@@ -1,7 +1,8 @@
-import React from 'react'
-import useInput from "../hooks/useInput"
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userLogout } from "../redux/thunks/userThunks";
 
 
 import {
@@ -20,12 +21,18 @@ import {
 } from "@chakra-ui/react";
 
 export const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const userData = useSelector((state) => state.user.userData);
 
-  return (
-    <>
+  const handleLogout = () => {
+    dispatch(userLogout());
+    navigate("/");
+  }
 
+  return (
 <>
       <Flex
         minWidth="max-content"
@@ -125,8 +132,7 @@ export const Navbar = () => {
                 My list
               </MenuItem>
               <MenuDivider />
-
-              <MenuItem as={Link} to="/" >
+              <MenuItem as={Link} to="/" onClick={handleLogout} >
                 Log out
               </MenuItem>
             </MenuList>
@@ -144,8 +150,6 @@ export const Navbar = () => {
           </ButtonGroup>
         )}
       </Flex>
-    </>
-
     </>
   )
 }
