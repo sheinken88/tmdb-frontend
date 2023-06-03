@@ -6,7 +6,7 @@ import searchReducer from './slices/searchSlice';
 const store = configureStore({
   reducer: {
     user: userReducer,
-    movie: movieReducer,
+    movies: movieReducer,
     search: searchReducer,
   },
 });

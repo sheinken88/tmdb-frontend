@@ -1,8 +1,33 @@
-import { Box } from '@chakra-ui/react'
-import React from 'react'
+import { useEffect } from 'react'
+import { Box, VStack, Heading } from '@chakra-ui/react'
+import { MovieList } from '../components/Movie/MovieList';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchPopularMovies, fetchUpcomingMovies, fetchTopRatedMovies } from '../redux/thunks/movieThunks'
 
 export const HomePage = () => {
+  const dispatch = useDispatch();
+  const popularMovies = useSelector(state => state.movies.popularMovies);
+  const upcomingMovies = useSelector(state => state.movies.upcomingMovies);
+  const topRatedMovies = useSelector(state => state.movies.topRatedMovies);
+
+  useEffect(() => {
+    dispatch(fetchPopularMovies());
+    dispatch(fetchTopRatedMovies());
+    dispatch(fetchUpcomingMovies());
+  }, [dispatch]);
+
   return (
-    <Box minHeight="100vh">Home</Box>
+    <Box minHeight="100vh" bgGradient="linear(to-br, #1C1D29, #2B2D42)">
+      <VStack spacing={10}>
+        <Heading color="white">Most Popular</Heading>
+        <MovieList movies={popularMovies} />
+
+        <Heading color="white">Top Rated</Heading>
+        <MovieList movies={topRatedMovies} />
+
+        <Heading color="white">Upcoming</Heading>
+        <MovieList movies={upcomingMovies} />
+      </VStack>
+    </Box>
   )
 }

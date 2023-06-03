@@ -6,37 +6,40 @@ axios.defaults.withCredentials = true;
 
 
 export const userLogin = (email, password) => async (dispatch) => {
-    try {
-        await axios.post(`${settings.axiosURL}/users/login`, {
-            email,
-            password
-        })
+  try {
+      await axios.post(`${settings.axiosURL}/users/login`, {
+          email,
+          password
+      })
 
-        const payload = await axios.get(`${settings.axiosURL}/users/secret`)
+      const payload = await axios.get(`${settings.axiosURL}/users/me`)
 
-        const userData = payload.data
-        await dispatch(login(userData))
+      const userData = payload.data
+      await dispatch(login(userData))
 
-    } catch (error) {
-        console.error("login error: ", error)
-    }
+  } catch (error) {
+      console.error("login error: ", error)
+  }
 }
 
 export const userRegister = (userName, email, password) => async (dispatch) => {
-    try {
-        const response =  await axios.post(`${settings.axiosURL}/users/signup`, {
-            userName,
-            email,
-            password
-        })
+  try {
+        await axios.post(`${settings.axiosURL}/users/signup`, {
+          userName,
+          email,
+          password
+      })
 
-        const userData = response.data
-        dispatch(register(userData))
+      const payload = await axios.get(`${settings.axiosURL}/users/me`)
 
-    } catch (error) {
-        console.error("signup error: ", error)
-    }
+      const userData = payload.data
+      dispatch(register(userData))
+
+  } catch (error) {
+      console.error("signup error: ", error)
+  }
 }
+
 
 export const userLogout = () => async (dispatch) => {
   try {
