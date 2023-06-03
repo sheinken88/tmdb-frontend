@@ -25,6 +25,16 @@ export const fetchPopularMovies = () => async (dispatch) => {
     }
 }
 
+export const fetchTopRatedMovies = () => async (dispatch) => {
+    try {
+        const response = await axios.get(`${settings.axiosURL}/movies/top_rated`);
+        dispatch(setTopRatedMovies(response.data.results));
+        
+    } catch (error) {
+        console.error("Fetch top-rated movies: ", error);
+    }
+}
+
 export const fetchUpcomingMovies = () => async (dispatch) => {
     try {
         const response = await axios.get(`${settings.axiosURL}/movies/upcoming`);
@@ -35,12 +45,3 @@ export const fetchUpcomingMovies = () => async (dispatch) => {
     }
 }
 
-export const fetchTopRatedMovies = () => async (dispatch) => {
-    try {
-        const response = await axios.get(`${settings.axiosURL}/movies/top_rated`);
-        dispatch(setTopRatedMovies(response.data.results));
-        
-    } catch (error) {
-        console.error("Fetch top-rated movies: ", error);
-    }
-}

@@ -10,10 +10,10 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    register: (state, action) => {
-      state.isAuthenticated = true;
-      state.userData = action.payload;
-    },
+    // register: (state, action) => {
+    //   // state.isAuthenticated = true;
+    //   // state.userData = action.payload;
+    // },
     login: (state, action) => {
       state.isAuthenticated = true;
       state.userData = action.payload;
@@ -37,7 +37,7 @@ const userSlice = createSlice({
 export const {
   login,
   logout,
-  register,
+  // register,
   addToFavorites,
   removeFromFavorites,
 } = userSlice.actions;
