@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { login, register, logout , addToFavorites, removeFromFavorites } from '../slices/userSlice';
+import { login, logout , addToFavorites, removeFromFavorites } from '../slices/userSlice';
 import * as settings from "../../settings"
 
 axios.defaults.withCredentials = true;
@@ -22,18 +22,18 @@ export const userLogin = (email, password) => async (dispatch) => {
   }
 }
 
-export const userRegister = (userName, email, password) => async (dispatch) => {
+export const userRegister = (userName, email, password) => async () => {
   try {
-        await axios.post(`${settings.axiosURL}/users/signup`, {
+         await axios.post(`${settings.axiosURL}/users/signup`, {
           userName,
           email,
           password
       })
 
-      const payload = await axios.get(`${settings.axiosURL}/users/me`)
+      
 
-      const userData = payload.data
-      dispatch(register(userData))
+      
+      // dispatch(register(response))
 
   } catch (error) {
       console.error("signup error: ", error)
