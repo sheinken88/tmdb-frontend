@@ -27,6 +27,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const searchInput = useInput()
 
+
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const userData = useSelector((state) => state.user.userData);
 
@@ -38,7 +39,7 @@ export const Navbar = () => {
   const handleOnSubmit = (e) => {
     e.preventDefault()
     dispatch(searchMovies(searchInput.value))
-    searchInput.current.value = ""
+    searchInput.setValue("")
   }
 
   return (
