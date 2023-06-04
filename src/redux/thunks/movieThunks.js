@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import { setMovieDetails, setPopularMovies, setUpcomingMovies, setTopRatedMovies } from '../slices/movieSlice';
 import * as settings from "../../settings"
 axios.defaults.withCredentials = true;

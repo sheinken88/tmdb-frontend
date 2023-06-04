@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../redux/thunks/userThunks";
+import { searchMovies } from '../redux/thunks/searchThunks';
+import useInput from "../hooks/useInput";
 
 
 import {
@@ -23,6 +25,7 @@ import {
 export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const searchInput = useInput()
 
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const userData = useSelector((state) => state.user.userData);
@@ -30,6 +33,12 @@ export const Navbar = () => {
   const handleLogout = () => {
     dispatch(userLogout());
     navigate("/");
+  }
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault()
+    dispatch(searchMovies(searchInput.value))
+    searchInput.current.value = ""
   }
 
   return (
@@ -85,10 +94,7 @@ export const Navbar = () => {
         <Spacer />
         <Box mr={10}>
           <form
-            // onSubmit={(e) => {
-            //   e.preventDefault();
-            //   handleOnSubmit(searchInput.value);
-            // }}
+            onSubmit={handleOnSubmit}
           >
             <Flex>
               <Input
@@ -100,8 +106,8 @@ export const Navbar = () => {
                 boxShadow="md"
                 _hover={{ boxShadow: "lg" }}
                 _focus={{ boxShadow: "lg", color: "white" }}
-                // value={searchInput.value}
-                // onChange={searchInput.onChange}
+                value={searchInput.value}
+                onChange={searchInput.onChange}
               />
               <Button
                 type="submit"
