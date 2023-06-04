@@ -1,14 +1,16 @@
-import { useEffect } from 'react'
-import { Box, VStack, Heading } from '@chakra-ui/react'
-import { MovieList } from '../components/Movie/MovieList';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchPopularMovies, fetchUpcomingMovies, fetchTopRatedMovies } from '../redux/thunks/movieThunks'
+import { useEffect } from "react"
+import { Box, VStack, Heading } from "@chakra-ui/react"
+import { MovieList } from "../components/Movie/MovieList";
+import { SearchResult } from "../components/Movie/SearchResult"
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPopularMovies, fetchUpcomingMovies, fetchTopRatedMovies } from "../redux/thunks/movieThunks"
 
 export const HomePage = () => {
   const dispatch = useDispatch();
   const popularMovies = useSelector(state => state.movies.popularMovies);
   const upcomingMovies = useSelector(state => state.movies.upcomingMovies);
   const topRatedMovies = useSelector(state => state.movies.topRatedMovies);
+  const searchResults = useSelector(state => state.search.searchResults)
 
   useEffect(() => {
     dispatch(fetchPopularMovies());
@@ -27,6 +29,9 @@ export const HomePage = () => {
 
         <Heading color="white">Upcoming</Heading>
         <MovieList movies={upcomingMovies} />
+
+        <Heading color="white">Search Results</Heading>
+        <SearchResult movies={searchResults} />
       </VStack>
     </Box>
   )

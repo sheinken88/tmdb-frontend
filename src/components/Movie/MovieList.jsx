@@ -1,6 +1,6 @@
 
-import { MovieCard } from './MovieCard';
-import { Box, SimpleGrid } from '@chakra-ui/react'
+import { MovieCard } from "./MovieCard";
+import { Box, SimpleGrid } from "@chakra-ui/react"
 
 export const MovieList = ({movies}) => {
 
