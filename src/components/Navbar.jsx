@@ -1,11 +1,9 @@
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../redux/thunks/userThunks";
-import { searchMovies } from '../redux/thunks/searchThunks';
+import { searchMovies } from "../redux/thunks/searchThunks";
 import useInput from "../hooks/useInput";
-
 
 import {
   Button,
@@ -22,11 +20,10 @@ import {
   Input,
 } from "@chakra-ui/react";
 
-export const Navbar = () => {
+export const Navbar = ({ setKey }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const searchInput = useInput()
-
+  const searchInput = useInput();
 
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const userData = useSelector((state) => state.user.userData);
@@ -34,69 +31,90 @@ export const Navbar = () => {
   const handleLogout = () => {
     dispatch(userLogout());
     navigate("/");
-  }
+  };
 
   const handleOnSubmit = (e) => {
-    e.preventDefault()
-    dispatch(searchMovies(searchInput.value))
-    searchInput.setValue("")
-  }
+    e.preventDefault();
+    dispatch(searchMovies(searchInput.value));
+    searchInput.setValue("");
+  };
 
   return (
-<>
+    <>
       <Flex
         minWidth="max-content"
         alignItems="center"
         gap="2"
         p="4"
         backgroundColor="#2B2D42"
-
       >
         <Box p="2">
-            <Heading
-              as={Link} 
-              to="/"
-              size="xl"
-              color="transparent"
-              bgGradient="linear(to-r, white, orange)"
-              bgClip="text"
-            >
-              TMDB
-            </Heading>
+          <Heading
+            size="xl"
+            color="transparent"
+            bgGradient="linear(to-r, white, orange)"
+            bgClip="text"
+            _hover={{
+              cursor: "pointer",
+              bgGradient: "linear(to-r, yellow, red)",
+            }}
+            onClick={() => {
+              navigate("/");
+              setKey((prevKey) => prevKey + 1);
+            }}
+          >
+            TMDB
+          </Heading>
         </Box>
         <Flex ml="40" gap="8">
           <Menu>
-            <MenuButton fontSize="lg" color="white">
-              Movies
+            <MenuButton
+              fontSize="lg"
+              color="white"
+              _hover={{
+                fontSize: "xl",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                outline: "none",
+              }}
+              onClick={() => navigate("/?category=popular")}
+            >
+              Popular
             </MenuButton>
-            <MenuList>
-              <MenuItem>
-                Popular
-              </MenuItem>
-              <MenuItem>
-                Upcoming
-              </MenuItem>
-            </MenuList>
-          </Menu>
-          <Menu>
-            <MenuButton fontSize="lg" color="white">
-              Tv shows
+            <MenuButton
+              fontSize="lg"
+              color="white"
+              _hover={{
+                fontSize: "xl",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                outline: "none",
+              }}
+              onClick={() => navigate("/?category=topRated")}
+            >
+              Top Rated
             </MenuButton>
-            <MenuList>
-              <MenuItem>
-                Popular
-              </MenuItem>
-              <MenuItem>
-                Top Rated
-              </MenuItem>
-            </MenuList>
+            <MenuButton
+              fontSize="lg"
+              color="white"
+              _hover={{
+                fontSize: "xl",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                outline: "none",
+              }}
+              onClick={() => navigate("/?category=upcoming")}
+            >
+              Upcoming
+            </MenuButton>
           </Menu>
         </Flex>
         <Spacer />
         <Box mr={10}>
-          <form
-            onSubmit={handleOnSubmit}
-          >
+          <form onSubmit={handleOnSubmit}>
             <Flex>
               <Input
                 placeholder="Search"
@@ -139,24 +157,28 @@ export const Navbar = () => {
                 My list
               </MenuItem>
               <MenuDivider />
-              <MenuItem as={Link} to="/" onClick={handleLogout} >
+              <MenuItem as={Link} to="/" onClick={handleLogout}>
                 Log out
               </MenuItem>
             </MenuList>
           </Menu>
         ) : (
           <ButtonGroup gap="2">
+            <Button
+              as={Link}
+              to="/signup"
+              colorScheme="orange"
+              variant="outline"
+            >
+              Sign Up
+            </Button>
 
-              <Button as={Link} to="/signup" colorScheme="orange" variant="outline">
-                Sign Up
-              </Button>
-
-
-              <Button as={Link} to="/login" colorScheme="orange">Log in</Button>
-
+            <Button as={Link} to="/login" colorScheme="orange">
+              Log in
+            </Button>
           </ButtonGroup>
         )}
       </Flex>
     </>
-  )
-}
+  );
+};

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../redux/thunks/userThunks";
-import useInput from "../../hooks/useInput"
+import useInput from "../../hooks/useInput";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -13,7 +13,6 @@ import {
   Button,
   useColorModeValue,
 } from "@chakra-ui/react";
-
 
 export const Login = () => {
   const email = useInput();
@@ -28,50 +27,49 @@ export const Login = () => {
   };
 
   return (
-    <Box minHeight="100vh">
+    <Box minHeight="100vh" bgColor="#242636" paddingTop={40}>
       <Box
-      p={8}
-      borderWidth={1}
-      borderRadius="lg"
-      boxShadow="lg"
-      bg={useColorModeValue("white", "gray.700")}
-      maxW="md"
-      mx="auto"
-      mt="40"
-    >
-      <form onSubmit={handleLogin}>
-        <Stack spacing={6}>
-          <FormControl isRequired>
-            <FormLabel>Email</FormLabel>
-            <Input placeholder="Email" {...email} />
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel>Password</FormLabel>
-            <Input type="password" placeholder="Password" {...password} />
-          </FormControl>
-          <Button
-            type="submit"
-            backgroundColor="#3498DB"
-            color="white"
-            size="lg"
-            fontSize="md"
-          >
-            Login
-          </Button>
-          <Button
-            type="button"
-            color="gray"
-            size="xs"
-            fontSize="md"
-            variant="ghost"
-            as={Link}
-            to="/"
-          >
-            Cancel
-          </Button>
-        </Stack>
-      </form>
+        p={8}
+        borderWidth={1}
+        borderRadius="lg"
+        boxShadow="lg"
+        bg={useColorModeValue("white", "gray.700")}
+        maxW="md"
+        mx="auto"
+      >
+        <form onSubmit={handleLogin}>
+          <Stack spacing={6}>
+            <FormControl isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input placeholder="Email" {...email} />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Password</FormLabel>
+              <Input type="password" placeholder="Password" {...password} />
+            </FormControl>
+            <Button
+              type="submit"
+              backgroundColor="#3498DB"
+              color="white"
+              size="lg"
+              fontSize="md"
+            >
+              Login
+            </Button>
+            <Button
+              type="button"
+              color="gray"
+              size="xs"
+              fontSize="md"
+              variant="ghost"
+              as={Link}
+              to="/"
+            >
+              Cancel
+            </Button>
+          </Stack>
+        </form>
+      </Box>
     </Box>
-    </Box>
-  )
-}
+  );
+};

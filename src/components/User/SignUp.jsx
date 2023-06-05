@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux"
+import { useDispatch } from "react-redux";
 import useInput from "../../hooks/useInput";
 
 import {
@@ -24,61 +24,64 @@ export const SignUp = () => {
   const password = useInput();
 
   const handleRegister = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    await dispatch(userRegister(userName.value, email.value, password.value))
+    await dispatch(userRegister(userName.value, email.value, password.value));
 
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   return (
-    <Box minHeight="100vh">
-          <Box 
-      p={8}
-      borderWidth={1}
-      borderRadius="lg"
-      boxShadow="lg"
-      bg={useColorModeValue("white", "gray.700")}
-      maxW="md"
-      mx="auto"
-      mt="40"
-    >
-      <form onSubmit={handleRegister}>
-        <Stack spacing={6}>
-          <FormControl isRequired>
-            <FormLabel>UserName</FormLabel>
-            <Input {...userName} placeholder="UserName" />
-          </FormControl>
+    <Box minHeight="100vh" bgColor="#242636" paddingTop={40}>
+      <Box
+        p={8}
+        borderWidth={1}
+        borderRadius="lg"
+        boxShadow="lg"
+        bg={useColorModeValue("white", "gray.700")}
+        maxW="md"
+        mx="auto"
+      >
+        <form onSubmit={handleRegister}>
+          <Stack spacing={6}>
+            <FormControl isRequired>
+              <FormLabel>UserName</FormLabel>
+              <Input {...userName} placeholder="UserName" />
+            </FormControl>
 
-          <FormControl isRequired>
-            <FormLabel>Email</FormLabel>
-            <Input {...email} placeholder="Email" />
-          </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input {...email} placeholder="Email" />
+            </FormControl>
 
-          <FormControl isRequired>
-            <FormLabel>Password</FormLabel>
-            <Input {...password} type="password" placeholder="Password" />
-          </FormControl>
-          <ButtonGroup gap="2">
-            <Button type="submit" colorScheme="orange" size="lg" fontSize="md">
-              Sign Up
-            </Button>
-            <Button
-              type="button"
-              colorScheme="orange"
-              size="lg"
-              fontSize="md"
-              variant="ghost"
-              as={Link}
-              to="/"
-            >
-              Cancel
-            </Button>
-          </ButtonGroup>
-        </Stack>
-      </form>
+            <FormControl isRequired>
+              <FormLabel>Password</FormLabel>
+              <Input {...password} type="password" placeholder="Password" />
+            </FormControl>
+            <ButtonGroup gap="2">
+              <Button
+                type="submit"
+                colorScheme="orange"
+                size="lg"
+                fontSize="md"
+              >
+                Sign Up
+              </Button>
+              <Button
+                type="button"
+                colorScheme="orange"
+                size="lg"
+                fontSize="md"
+                variant="ghost"
+                as={Link}
+                to="/"
+              >
+                Cancel
+              </Button>
+            </ButtonGroup>
+          </Stack>
+        </form>
+      </Box>
     </Box>
-    </Box>
-
-  )
-}
+  );
+};

@@ -4,6 +4,7 @@ const initialState = {
   searchResults: [],
   isLoading: false,
   error: null,
+  searchActivated: false,
 };
 
 const searchSlice = createSlice({
@@ -14,6 +15,7 @@ const searchSlice = createSlice({
       state.isLoading = true;
       state.error = null;
       state.searchResults = [];
+      state.searchActivated = true; 
     },
     searchSuccess: (state, action) => {
       state.isLoading = false;
@@ -23,9 +25,13 @@ const searchSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    clearSearch: (state) => {
+      state.searchResults = [];
+      state.searchActivated = false; 
+    },
   },
 });
 
-export const { startSearch, searchSuccess, searchFailure } = searchSlice.actions;
+export const { startSearch, searchSuccess, searchFailure, clearSearch } = searchSlice.actions;
 
 export default searchSlice.reducer;
