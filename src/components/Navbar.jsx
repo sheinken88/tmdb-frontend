@@ -145,15 +145,15 @@ export const Navbar = ({ setKey }) => {
           </form>
         </Box>
         {isAuthenticated ? (
-          <Menu>
+          <Menu position="relative">
             <MenuButton fontSize="2xl" color="white">
               {userData.userName}
             </MenuButton>
-            <MenuList>
+            <MenuList zIndex="1000">
               <MenuItem as={Link} to="/">
                 Account
               </MenuItem>
-              <MenuItem as={Link} to="/">
+              <MenuItem as={Link} to="/favorites">
                 My list
               </MenuItem>
               <MenuDivider />

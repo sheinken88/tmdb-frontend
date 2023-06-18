@@ -82,6 +82,7 @@ export const HomePage = () => {
       minHeight="100vh"
       paddingTop={10}
       bgGradient="linear(to-br, #1C1D29, #2B2D42)"
+      position="relative"
     >
       <VStack spacing={10}>
         {!searchActivated && featuredMovie && (
@@ -90,6 +91,7 @@ export const HomePage = () => {
             height={{ base: "300px", md: "500px" }}
             py={5}
             px={{ base: "4", md: "8" }}
+            zIndex="999"
             position="relative"
             _before={{
               content: '""',
@@ -101,7 +103,6 @@ export const HomePage = () => {
               background: `radial-gradient(ellipse at center, transparent, ${bgImageOverlay}, #1E1F2C), url(https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              zIndex: 1,
             }}
           >
             <Box p={10} color="white" position="relative" zIndex="2">

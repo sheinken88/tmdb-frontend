@@ -1,14 +1,39 @@
-import { Box, Image, Text, Badge, IconButton, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Text,
+  Badge,
+  IconButton,
+  Tooltip,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+} from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/react";
-
-import { useDispatch } from "react-redux";
+import { FiHeart } from "react-icons/fi";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addMovieToFavorites } from "../../redux/thunks/userThunks";
 
 export const MovieCard = ({ movie }) => {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertStatus, setAlertStatus] = useState("info");
 
   const handleAddToFavorites = () => {
-    dispatch(addMovieToFavorites(movie.id));
+    if (isAuthenticated) {
+      dispatch(addMovieToFavorites(movie.id));
+      setAlertTitle("Successfully added movie to favorites!");
+      setAlertStatus("success");
+    } else {
+      setAlertTitle("You must be logged in to add favorites!");
+      setAlertStatus("error");
+    }
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 3000);
   };
 
   const handleMouseEnter = (event) => {
@@ -29,7 +54,25 @@ export const MovieCard = ({ movie }) => {
       onMouseLeave={handleMouseLeave}
       transition="transform 0.2s"
     >
+      {showAlert && (
+        <Alert status={alertStatus} variant="left-accent">
+          <AlertIcon />
+          <AlertTitle>{alertTitle}</AlertTitle>
+        </Alert>
+      )}
       <Box position="relative">
+        <Tooltip label="Add to favorites">
+          <IconButton
+            aria-label="Add to favorites"
+            icon={<FiHeart />}
+            onClick={handleAddToFavorites}
+            position="absolute"
+            top="5px"
+            right="5px"
+            colorScheme="red"
+          />
+        </Tooltip>
+
         <Badge
           width="35px"
           height="35px"
