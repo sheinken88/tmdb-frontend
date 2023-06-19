@@ -7,12 +7,17 @@ import { MovieCard } from "../components/Movie/MovieCard";
 export const FavoritesPage = () => {
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.user.favorites);
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {
     dispatch(fetchFavorites());
   }, [dispatch]);
 
   console.log("FAVORITES: ", favorites);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box
@@ -28,7 +33,7 @@ export const FavoritesPage = () => {
       </Heading>
       <SimpleGrid columns={{ base: 1, md: 6 }} spacing={{ base: "6", md: "8" }}>
         {favorites.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} isFavoritePage />
         ))}
       </SimpleGrid>
     </Box>

@@ -4,6 +4,7 @@ const initialState = {
   isAuthenticated: false,
   userData: null,
   favorites: [],
+  isLoading: false,
 };
 
 const userSlice = createSlice({
@@ -27,9 +28,15 @@ const userSlice = createSlice({
       state.favorites = action.payload;
     },
     removeFromFavorites: (state, action) => {
-      state.favorites = state.favorites.filter(
-        (movie) => movie.id !== action.payload.id
-      );
+      state.favorites = [
+        ...state.favorites.filter((movie) => movie.id !== action.payload.id),
+      ];
+    },
+    loadingStart: (state) => {
+      state.isLoading = true;
+    },
+    loadingEnd: (state) => {
+      state.isLoading = false;
     },
   },
 });
@@ -40,5 +47,7 @@ export const {
   addToFavorites,
   loadFavorites,
   removeFromFavorites,
+  loadingStart,
+  loadingEnd,
 } = userSlice.actions;
 export default userSlice.reducer;
