@@ -1,7 +1,3 @@
-
-
 export const MoviePage = () => {
-  return (
-    <div>MoviePage</div>
-  )
-}
+  return <div>MoviePage</div>;
+};

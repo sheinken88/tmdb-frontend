@@ -11,11 +11,16 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/react";
 import { FiHeart } from "react-icons/fi";
+import { AiFillDelete } from "react-icons/ai";
+
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addMovieToFavorites } from "../../redux/thunks/userThunks";
+import {
+  addMovieToFavorites,
+  removeMovieFromFavorites,
+} from "../../redux/thunks/userThunks";
 
-export const MovieCard = ({ movie }) => {
+export const MovieCard = ({ movie, isFavoritePage }) => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
@@ -31,6 +36,16 @@ export const MovieCard = ({ movie }) => {
     } else {
       setAlertTitle("You must be logged in to add favorites!");
       setAlertStatus("error");
+    }
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 3000);
+  };
+
+  const handleRemoveFromFavorites = () => {
+    if (isAuthenticated) {
+      dispatch(removeMovieFromFavorites(movie.id));
+      setAlertTitle("Successfully removed movie from favorites!");
+      setAlertStatus("info");
     }
     setShowAlert(true);
     setTimeout(() => setShowAlert(false), 3000);
@@ -61,15 +76,21 @@ export const MovieCard = ({ movie }) => {
         </Alert>
       )}
       <Box position="relative">
-        <Tooltip label="Add to favorites">
+        <Tooltip
+          label={isFavoritePage ? "Remove from favorites" : "Add to favorites"}
+        >
           <IconButton
-            aria-label="Add to favorites"
-            icon={<FiHeart />}
-            onClick={handleAddToFavorites}
+            aria-label={
+              isFavoritePage ? "Remove from favorites" : "Add to favorites"
+            }
+            icon={isFavoritePage ? <AiFillDelete /> : <FiHeart />}
+            onClick={
+              isFavoritePage ? handleRemoveFromFavorites : handleAddToFavorites
+            }
             position="absolute"
             top="5px"
             right="5px"
-            colorScheme="red"
+            colorScheme={isFavoritePage ? "gray" : "red"}
           />
         </Tooltip>
 
@@ -113,7 +134,7 @@ export const MovieCard = ({ movie }) => {
             color="white"
             isTruncated
           >
-            {movie.release_date.slice(0, 4)}
+            {movie.release_date ? movie.release_date.slice(0, 4) : "No Date"}
           </Text>
         </Box>
       </Box>

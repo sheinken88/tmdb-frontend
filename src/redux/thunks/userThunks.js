@@ -34,8 +34,6 @@ export const userRegister = (userName, email, password) => async () => {
       email,
       password,
     });
-
-    // dispatch(register(response))
   } catch (error) {
     console.error("signup error: ", error);
   }
@@ -59,7 +57,6 @@ export const addMovieToFavorites = (movieId) => async (dispatch, getState) => {
       { movieId: parseInt(movieId) }
     );
 
-    // esto tiene que volver como objeto con la data de la peli, solo viene un ID.
     const { data } = response;
     console.log("data:", data);
 
@@ -78,7 +75,8 @@ export const removeMovieFromFavorites =
         { movieId }
       );
       const { data } = response;
-      dispatch(removeFromFavorites(data));
+
+      dispatch(loadFavorites(data));
     } catch (error) {
       console.error("Remove from fav: ", error);
     }
