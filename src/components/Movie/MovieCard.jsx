@@ -125,7 +125,7 @@ export const MovieCard = ({ movie, isFavoritePage }) => {
             color="white"
             isTruncated
           >
-            {movie.title}
+            {movie.original_title}
           </Text>
           <Text
             mt="1"

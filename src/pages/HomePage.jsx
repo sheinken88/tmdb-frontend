@@ -27,6 +27,9 @@ export const HomePage = () => {
   const searchActivated = useSelector((state) => state.search.searchActivated);
 
   const [featuredMovie, setFeaturedMovie] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("popular");
+
   const bgImageOverlay = useColorModeValue(
     "rgba(0, 0, 0, 0.1)",
     "rgba(255, 255, 255, 0.6)"
@@ -36,8 +39,6 @@ export const HomePage = () => {
 
   const [searchParams] = useSearchParams();
   const categoryFromURL = searchParams.get("category");
-
-  const [selectedCategory, setSelectedCategory] = useState("popular");
 
   useEffect(() => {
     if (upcomingMovies.length > 0 && featuredMovie === null) {
@@ -53,14 +54,28 @@ export const HomePage = () => {
       ["popular", "upcoming", "topRated"].includes(categoryFromURL)
     ) {
       setSelectedCategory(categoryFromURL);
+      setCurrentPage(1);
     } else {
       setSelectedCategory("popular");
     }
-    dispatch(fetchPopularMovies());
-    dispatch(fetchTopRatedMovies());
-    dispatch(fetchUpcomingMovies());
-    dispatch(clearSearch());
-  }, [dispatch, categoryFromURL]);
+    dispatch(fetchPopularMovies(currentPage));
+    dispatch(fetchTopRatedMovies(currentPage));
+    dispatch(fetchUpcomingMovies(currentPage));
+    dispatch(clearSearch(currentPage));
+  }, [dispatch, categoryFromURL, currentPage, selectedCategory]);
+
+  const loadMoreMovies = () => {
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+
+    if (selectedCategory === "popular") {
+      dispatch(fetchPopularMovies(nextPage));
+    } else if (selectedCategory === "topRated") {
+      dispatch(fetchTopRatedMovies(nextPage));
+    } else if (selectedCategory === "upcoming") {
+      dispatch(fetchUpcomingMovies(nextPage));
+    }
+  };
 
   let moviesToDisplay;
   switch (selectedCategory) {
@@ -130,6 +145,14 @@ export const HomePage = () => {
               {selectedCategory}
             </Heading>
             <MovieList movies={moviesToDisplay} />
+            <Button
+              bgColor="white"
+              color="#1D1E2A"
+              onClick={loadMoreMovies}
+              disabled={moviesToDisplay.length === 0}
+            >
+              Load More
+            </Button>
           </>
         )}
       </VStack>

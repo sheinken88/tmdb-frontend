@@ -4,7 +4,7 @@ const initialState = {
   movieDetails: null,
   popularMovies: [],
   upcomingMovies: [],
-  topRatedMovies: []
+  topRatedMovies: [],
 };
 
 const movieSlice = createSlice({
@@ -17,11 +17,36 @@ const movieSlice = createSlice({
     setPopularMovies: (state, action) => {
       state.popularMovies = action.payload;
     },
-    setUpcomingMovies: (state, action) => {
-      state.upcomingMovies = action.payload;
+    appendPopularMovies: (state, action) => {
+      const existingIds = new Set(state.popularMovies.map((movie) => movie.id));
+      const newMovies = action.payload.filter(
+        (movie) => !existingIds.has(movie.id)
+      );
+      state.popularMovies = [...state.popularMovies, ...newMovies];
     },
     setTopRatedMovies: (state, action) => {
       state.topRatedMovies = action.payload;
+    },
+    appendTopRatedMovies: (state, action) => {
+      const existingIds = new Set(
+        state.topRatedMovies.map((movie) => movie.id)
+      );
+      const newMovies = action.payload.filter(
+        (movie) => !existingIds.has(movie.id)
+      );
+      state.topRatedMovies = [...state.topRatedMovies, ...newMovies];
+    },
+    setUpcomingMovies: (state, action) => {
+      state.upcomingMovies = action.payload;
+    },
+    appendUpcomingMovies: (state, action) => {
+      const existingIds = new Set(
+        state.upcomingMovies.map((movie) => movie.id)
+      );
+      const newMovies = action.payload.filter(
+        (movie) => !existingIds.has(movie.id)
+      );
+      state.upcomingMovies = [...state.upcomingMovies, ...newMovies];
     },
   },
 });
@@ -29,7 +54,10 @@ const movieSlice = createSlice({
 export const {
   setMovieDetails,
   setPopularMovies,
+  appendPopularMovies,
+  setTopRatedMovies,
+  appendTopRatedMovies,
   setUpcomingMovies,
-  setTopRatedMovies
+  appendUpcomingMovies,
 } = movieSlice.actions;
 export default movieSlice.reducer;
