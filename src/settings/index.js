@@ -1,1 +1,1 @@
-export const axiosURL = "http://localhost:8081";
+export const axiosURL = "http://localhost:8082";
