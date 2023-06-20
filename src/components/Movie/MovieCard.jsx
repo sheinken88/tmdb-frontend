@@ -19,8 +19,10 @@ import {
   addMovieToFavorites,
   removeMovieFromFavorites,
 } from "../../redux/thunks/userThunks";
+import { Link } from "react-router-dom";
 
 export const MovieCard = ({ movie, isFavoritePage }) => {
+  console.log("movie: ", movie);
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
@@ -68,6 +70,8 @@ export const MovieCard = ({ movie, isFavoritePage }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       transition="transform 0.2s"
+      as={Link}
+      to={`/${movie.id}`}
     >
       {showAlert && (
         <Alert status={alertStatus} variant="left-accent">
@@ -123,7 +127,7 @@ export const MovieCard = ({ movie, isFavoritePage }) => {
             fontWeight="semibold"
             lineHeight="tight"
             color="white"
-            isTruncated
+            // isTruncated
           >
             {movie.original_title}
           </Text>
