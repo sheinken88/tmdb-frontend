@@ -1,5 +1,6 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../redux/thunks/userThunks";
 import useInput from "../../hooks/useInput";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +13,8 @@ import {
   Stack,
   Button,
   useColorModeValue,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 
 export const Login = () => {
@@ -19,11 +22,22 @@ export const Login = () => {
   const password = useInput();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
+
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    if (user.error) {
+      setShowAlert(true);
+    } else if (user.isAuthenticated) {
+      setShowAlert(false);
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(userLogin(email.value, password.value));
-    navigate("/");
+    dispatch(clearError());
   };
 
   return (
@@ -37,6 +51,12 @@ export const Login = () => {
         maxW="md"
         mx="auto"
       >
+        {showAlert && (
+          <Alert status="error" mb={5}>
+            <AlertIcon />
+            {user.error}
+          </Alert>
+        )}
         <form onSubmit={handleLogin}>
           <Stack spacing={6}>
             <FormControl isRequired>

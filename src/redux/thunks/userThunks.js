@@ -24,6 +24,7 @@ export const userLogin = (email, password) => async (dispatch) => {
     await dispatch(login(userData));
   } catch (error) {
     console.error("login error: ", error);
+    dispatch(loginError("Incorrect email or password. Please try again."));
   }
 };
 

@@ -5,6 +5,7 @@ const initialState = {
   userData: null,
   favorites: [],
   isLoading: false,
+  error: null,
 };
 
 const userSlice = createSlice({
@@ -15,6 +16,12 @@ const userSlice = createSlice({
       state.isAuthenticated = true;
       state.userData = action.payload;
       state.favorites = action.payload.favorites;
+    },
+    loginError: (state, action) => {
+      state.error = action.payload;
+    },
+    clearError: (state) => {
+      state.error = null;
     },
     logout: (state) => {
       state.isAuthenticated = false;
