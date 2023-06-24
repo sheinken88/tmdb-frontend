@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   movieDetails: null,
+  similarMovies: [],
   popularMovies: [],
   upcomingMovies: [],
   topRatedMovies: [],
@@ -13,6 +14,9 @@ const movieSlice = createSlice({
   reducers: {
     setMovieDetails: (state, action) => {
       state.movieDetails = action.payload;
+    },
+    setSimilarMovies: (state, action) => {
+      state.similarMovies = action.payload;
     },
     setPopularMovies: (state, action) => {
       state.popularMovies = action.payload;
@@ -53,6 +57,7 @@ const movieSlice = createSlice({
 
 export const {
   setMovieDetails,
+  setSimilarMovies,
   setPopularMovies,
   appendPopularMovies,
   setTopRatedMovies,
@@ -60,4 +65,5 @@ export const {
   setUpcomingMovies,
   appendUpcomingMovies,
 } = movieSlice.actions;
+
 export default movieSlice.reducer;

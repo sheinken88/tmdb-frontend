@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../redux/thunks/userThunks";
 import { searchMovies } from "../redux/thunks/searchThunks";
+import { HamburgerMenu } from "./HamburguerMenu";
+import { useMediaQuery } from "@chakra-ui/react";
 import useInput from "../hooks/useInput";
 
 import {
@@ -21,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 
 export const Navbar = ({ setKey }) => {
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchInput = useInput();
@@ -42,7 +45,7 @@ export const Navbar = ({ setKey }) => {
   return (
     <>
       <Flex
-        minWidth="max-content"
+        minWidth="100%"
         alignItems="center"
         gap="2"
         p="4"
@@ -66,118 +69,131 @@ export const Navbar = ({ setKey }) => {
             TMDB
           </Heading>
         </Box>
-        <Flex ml="40" gap="8">
-          <Menu>
-            <MenuButton
-              fontSize="lg"
-              color="white"
-              _hover={{
-                fontSize: "xl",
-                borderColor: "transparent",
-              }}
-              _focus={{
-                outline: "none",
-              }}
-              onClick={() => navigate("/?category=popular")}
-            >
-              Popular
-            </MenuButton>
-            <MenuButton
-              fontSize="lg"
-              color="white"
-              _hover={{
-                fontSize: "xl",
-                borderColor: "transparent",
-              }}
-              _focus={{
-                outline: "none",
-              }}
-              onClick={() => navigate("/?category=topRated")}
-            >
-              Top Rated
-            </MenuButton>
-            <MenuButton
-              fontSize="lg"
-              color="white"
-              _hover={{
-                fontSize: "xl",
-                borderColor: "transparent",
-              }}
-              _focus={{
-                outline: "none",
-              }}
-              onClick={() => navigate("/?category=upcoming")}
-            >
-              Upcoming
-            </MenuButton>
-          </Menu>
-        </Flex>
-        <Spacer />
-        <Box mr={10}>
-          <form onSubmit={handleOnSubmit}>
-            <Flex>
-              <Input
-                placeholder="Search"
-                variant="filled"
-                size="md"
-                borderRadius="full"
-                bg="white"
-                boxShadow="md"
-                _hover={{ boxShadow: "lg" }}
-                _focus={{ boxShadow: "lg", color: "white" }}
-                value={searchInput.value}
-                onChange={searchInput.onChange}
-              />
-              <Button
-                type="submit"
-                size="md"
-                ml={2}
-                px={8}
-                borderRadius="full"
-                bg="blue.500"
-                color="white"
-                _hover={{ bg: "blue.600" }}
-                _active={{ bg: "blue.700" }}
-              >
-                Search
-              </Button>
-            </Flex>
-          </form>
-        </Box>
-        {isAuthenticated ? (
-          <Menu position="relative">
-            <MenuButton fontSize="2xl" color="white">
-              {userData.userName}
-            </MenuButton>
-            <MenuList zIndex="1000">
-              <MenuItem as={Link} to="/">
-                Account
-              </MenuItem>
-              <MenuItem as={Link} to="/favorites">
-                My list
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem as={Link} to="/" onClick={handleLogout}>
-                Log out
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        ) : (
-          <ButtonGroup gap="2">
-            <Button
-              as={Link}
-              to="/signup"
-              colorScheme="orange"
-              variant="outline"
-            >
-              Sign Up
-            </Button>
 
-            <Button as={Link} to="/login" colorScheme="orange">
-              Log in
-            </Button>
-          </ButtonGroup>
+        {isLargerThan768 ? (
+          <>
+            <Flex ml="40" gap="8">
+              <Menu>
+                <MenuButton
+                  fontSize="lg"
+                  color="white"
+                  _hover={{
+                    fontSize: "xl",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    outline: "none",
+                  }}
+                  onClick={() => navigate("/?category=popular")}
+                >
+                  Popular
+                </MenuButton>
+                <MenuButton
+                  fontSize="lg"
+                  color="white"
+                  _hover={{
+                    fontSize: "xl",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    outline: "none",
+                  }}
+                  onClick={() => navigate("/?category=topRated")}
+                >
+                  Top Rated
+                </MenuButton>
+                <MenuButton
+                  fontSize="lg"
+                  color="white"
+                  _hover={{
+                    fontSize: "xl",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    outline: "none",
+                  }}
+                  onClick={() => navigate("/?category=upcoming")}
+                >
+                  Upcoming
+                </MenuButton>
+              </Menu>
+            </Flex>
+
+            <Spacer />
+
+            <Box mr={10}>
+              <form onSubmit={handleOnSubmit}>
+                <form onSubmit={handleOnSubmit}>
+                  <Flex>
+                    <Input
+                      placeholder="Search"
+                      variant="filled"
+                      size="md"
+                      borderRadius="full"
+                      bg="white"
+                      boxShadow="md"
+                      _hover={{ boxShadow: "lg" }}
+                      _focus={{ boxShadow: "lg", color: "white" }}
+                      value={searchInput.value}
+                      onChange={searchInput.onChange}
+                    />
+                    <Button
+                      type="submit"
+                      size="md"
+                      ml={2}
+                      px={8}
+                      borderRadius="full"
+                      bg="blue.500"
+                      color="white"
+                      _hover={{ bg: "blue.600" }}
+                      _active={{ bg: "blue.700" }}
+                    >
+                      Search
+                    </Button>
+                  </Flex>
+                </form>
+              </form>
+            </Box>
+
+            {isAuthenticated ? (
+              <Menu position="relative">
+                <Menu position="relative">
+                  <MenuButton fontSize="2xl" color="white">
+                    {userData.userName}
+                  </MenuButton>
+                  <MenuList zIndex="1000">
+                    <MenuItem as={Link} to="/favorites">
+                      My list
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem as={Link} to="/" onClick={handleLogout}>
+                      Log out
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </Menu>
+            ) : (
+              <ButtonGroup gap="2">
+                <Button
+                  as={Link}
+                  to="/signup"
+                  colorScheme="orange"
+                  variant="outline"
+                >
+                  Sign Up
+                </Button>
+
+                <Button as={Link} to="/login" colorScheme="orange">
+                  Log in
+                </Button>
+              </ButtonGroup>
+            )}
+          </>
+        ) : (
+          <Spacer />
         )}
+
+        {!isLargerThan768 && <HamburgerMenu />}
       </Flex>
     </>
   );

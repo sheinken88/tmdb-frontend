@@ -31,7 +31,7 @@ export const FavoritesPage = () => {
       <Heading color="white" mb={10}>
         Favorites
       </Heading>
-      <SimpleGrid columns={{ base: 1, md: 6 }} spacing={{ base: "6", md: "8" }}>
+      <SimpleGrid columns={{ base: 2, md: 6 }} spacing={{ base: "6", md: "8" }}>
         {favorites.map((movie) => (
           <MovieCard key={movie.id} movie={movie} isFavoritePage />
         ))}

@@ -22,7 +22,7 @@ import {
 import { Link } from "react-router-dom";
 
 export const MovieCard = ({ movie, isFavoritePage }) => {
-  console.log("movie: ", movie);
+  // console.log("movie: ", movie);
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 

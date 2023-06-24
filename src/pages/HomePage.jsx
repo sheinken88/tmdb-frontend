@@ -122,7 +122,9 @@ export const HomePage = () => {
           >
             <Box p={10} color="white" position="relative" zIndex="2">
               <Heading marginBottom={10}>{featuredMovie.title}</Heading>
-              <Text marginBottom={10}>{featuredMovie.overview}</Text>
+              <Text marginBottom={10} display={{ base: "none", md: "block" }}>
+                {featuredMovie.overview}
+              </Text>
               <Button
                 bgColor="white"
                 color="#1D1E2A"
