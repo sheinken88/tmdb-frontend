@@ -13,8 +13,6 @@ export const FavoritesPage = () => {
     dispatch(fetchFavorites());
   }, [dispatch]);
 
-  console.log("FAVORITES: ", favorites);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

@@ -67,6 +67,9 @@ export const HamburgerMenu = () => {
                 w="full"
                 background="none"
                 color="white"
+                _hover={{
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.8)",
+                }}
               >
                 Popular
               </Button>
@@ -78,6 +81,9 @@ export const HamburgerMenu = () => {
                 w="full"
                 background="none"
                 color="white"
+                _hover={{
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.8)",
+                }}
               >
                 Top Rated
               </Button>
@@ -89,6 +95,9 @@ export const HamburgerMenu = () => {
                 w="full"
                 background="none"
                 color="white"
+                _hover={{
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.8)",
+                }}
               >
                 Upcoming
               </Button>
