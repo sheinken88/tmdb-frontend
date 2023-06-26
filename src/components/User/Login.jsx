@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../redux/thunks/userThunks";
 import useInput from "../../hooks/useInput";
 import { useNavigate } from "react-router-dom";
+import { loginError, clearError } from "../../redux/slices/userSlice";
 
 import {
   Box,
@@ -15,6 +16,7 @@ import {
   useColorModeValue,
   Alert,
   AlertIcon,
+  Heading,
 } from "@chakra-ui/react";
 
 export const Login = () => {
@@ -25,9 +27,14 @@ export const Login = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   const user = useSelector((state) => state.user);
+
   useEffect(() => {
     if (user.error) {
       setShowAlert(true);
+      const timeout = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+      return () => clearTimeout(timeout);
     } else if (user.isAuthenticated) {
       setShowAlert(false);
       navigate("/");
@@ -36,12 +43,23 @@ export const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(userLogin(email.value, password.value));
-    dispatch(clearError());
+    if (email.value && password.value) {
+      dispatch(clearError());
+    }
+    dispatch(userLogin(email.value, password.value))
+      .then(() => {
+        dispatch(clearError());
+      })
+      .catch((error) => {
+        dispatch(loginError(error.message));
+      });
   };
 
   return (
-    <Box minHeight="100vh" bgColor="#242636" paddingTop={40}>
+    <Box minHeight="100vh" bgColor="#242636" paddingTop={20}>
+      <Heading color="white" textAlign="center" mb="10">
+        Login
+      </Heading>
       <Box
         p={8}
         borderWidth={1}

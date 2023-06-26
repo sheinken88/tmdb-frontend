@@ -22,9 +22,10 @@ export const userLogin = (email, password) => async (dispatch) => {
     const userData = payload.data;
 
     await dispatch(login(userData));
+    await dispatch(clearError());
   } catch (error) {
     console.error("login error: ", error);
-    dispatch(loginError("Incorrect email or password. Please try again."));
+    throw new Error("Incorrect email or password. Please try again.");
   }
 };
 
@@ -59,7 +60,6 @@ export const addMovieToFavorites = (movieId) => async (dispatch, getState) => {
     );
 
     const { data } = response;
-    console.log("data:", data);
 
     dispatch(addToFavorites(data));
   } catch (error) {

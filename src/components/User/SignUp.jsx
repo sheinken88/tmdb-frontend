@@ -12,6 +12,7 @@ import {
   Button,
   useColorModeValue,
   ButtonGroup,
+  Heading,
 } from "@chakra-ui/react";
 
 import { userRegister } from "../../redux/thunks/userThunks";
@@ -32,7 +33,10 @@ export const SignUp = () => {
   };
 
   return (
-    <Box minHeight="100vh" bgColor="#242636" paddingTop={40}>
+    <Box minHeight="100vh" bgColor="#242636" paddingTop={20}>
+      <Heading color="white" textAlign="center" mb="10">
+        Sign Up
+      </Heading>
       <Box
         p={8}
         borderWidth={1}

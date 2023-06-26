@@ -1,5 +1,12 @@
-import "./App.css";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton,
+  Box,
+} from "@chakra-ui/react";
 import { Navbar } from "./components/Navbar";
 import { HomePage } from "./pages/HomePage";
 import { SignUp } from "./components/User/SignUp";
@@ -16,6 +23,8 @@ import * as settings from "./settings";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const alert = useSelector((state) => state.alert);
+
   const dispatch = useDispatch();
   const [key, setKey] = useState(0);
 
@@ -53,6 +62,14 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
+      {alert.showAlert && (
+        <Box position="fixed" bottom={5} left={5} maxW="md" zIndex={1000}>
+          <Alert status={alert.alertStatus}>
+            <AlertIcon />
+            <AlertDescription>{alert.alertTitle}</AlertDescription>
+          </Alert>
+        </Box>
+      )}
     </>
   );
 }

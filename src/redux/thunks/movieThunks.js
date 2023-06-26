@@ -12,22 +12,9 @@ import {
 import * as settings from "../../settings";
 axios.defaults.withCredentials = true;
 
-// export const fetchMovieDetails = (movieId) => async (dispatch) => {
-//   console.log("Fetching movie details for: ", movieId);
-//   try {
-//     const response = await axios.get(`${settings.axiosURL}/movies/${movieId}`);
-//     dispatch(setMovieDetails(response.data.movieDetails));
-//     dispatch(setSimilarMovies(response.data.similarMovies.results));
-//   } catch (error) {
-//     console.error("Fetch movie details: ", error);
-//   }
-// };
-
 export const fetchMovieDetails = (movieId) => async (dispatch) => {
-  console.log("Fetching movie details for: ", movieId);
   try {
     const response = await axios.get(`${settings.axiosURL}/movies/${movieId}`);
-    console.log("response.data", response.data);
     dispatch(setMovieDetails(response.data.movieDetails));
     dispatch(setSimilarMovies(response.data.similarMovies.results));
   } catch (error) {

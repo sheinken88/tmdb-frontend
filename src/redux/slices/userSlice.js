@@ -50,6 +50,8 @@ const userSlice = createSlice({
 
 export const {
   login,
+  loginError,
+  clearError,
   logout,
   addToFavorites,
   loadFavorites,
