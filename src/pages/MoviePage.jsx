@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchMovieDetails } from "../redux/thunks/movieThunks";
+import { fetchMovieActors } from "../redux/thunks/movieThunks";
 import { addMovieToFavorites } from "../redux/thunks/userThunks";
 import { showAlert, hideAlert } from "../redux/slices/alertSlice";
 import {
@@ -18,6 +19,7 @@ import {
 import { Spinner } from "@chakra-ui/react";
 import { FiHeart } from "react-icons/fi";
 import { MovieCarousel } from "../components/Movie/MovieCarousel";
+import { ActorCarousel } from "../components/Movie/ActorCarousel";
 
 export const MoviePage = () => {
   const { movieId } = useParams();
@@ -25,11 +27,13 @@ export const MoviePage = () => {
   const movieData = useSelector((state) => state.movies.movieDetails);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const similarMoviesData = useSelector((state) => state.movies.similarMovies);
-  console.log("similar movies: ", similarMoviesData);
+  const movieActorsData = useSelector((state) => state.movies.movieActors);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchMovieDetails(movieId))
+    dispatch(fetchMovieDetails(movieId));
+    dispatch(fetchMovieActors(movieId))
       .then(() => setLoading(false))
       .catch((error) => {
         console.error(error);
@@ -143,6 +147,12 @@ export const MoviePage = () => {
             </Flex>
           </Flex>
         </Box>
+      </Box>
+      <Box bgColor="#232535" padding={20}>
+        <Heading mb={10} color="white">
+          Cast
+        </Heading>
+        <ActorCarousel actors={movieActorsData} />
       </Box>
       <Box bgColor="#232535" padding={20}>
         <Heading mb={10} color="white">

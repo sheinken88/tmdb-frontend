@@ -1,10 +1,10 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { MovieCard } from "./MovieCard";
+import { ActorCard } from "./ActorCard";
 import { Box } from "@chakra-ui/react";
 
-export const MovieCarousel = ({ movies }) => {
+export const ActorCarousel = ({ actors }) => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -26,9 +26,9 @@ export const MovieCarousel = ({ movies }) => {
 
   return (
     <Carousel responsive={responsive} itemClass="carousel-item-padding-40-px">
-      {movies.map((movie) => (
-        <Box maxW="200px" maxH="400px" key={movie.id}>
-          <MovieCard movie={movie} />
+      {actors.map((actor) => (
+        <Box maxW="200px" maxH="400px" key={actor.id}>
+          <ActorCard actor={actor} />
         </Box>
       ))}
     </Carousel>
