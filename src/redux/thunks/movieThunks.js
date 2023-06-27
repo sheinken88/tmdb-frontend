@@ -8,6 +8,7 @@ import {
   appendPopularMovies,
   appendTopRatedMovies,
   appendUpcomingMovies,
+  setMovieActors,
 } from "../slices/movieSlice";
 import * as settings from "../../settings";
 axios.defaults.withCredentials = true;
@@ -19,6 +20,19 @@ export const fetchMovieDetails = (movieId) => async (dispatch) => {
     dispatch(setSimilarMovies(response.data.similarMovies.results));
   } catch (error) {
     console.error("Fetch movie details: ", error);
+    console.error("Error message: ", error.message);
+    console.error("Error response: ", error.response);
+  }
+};
+
+export const fetchMovieActors = (movieId) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `${settings.axiosURL}/movies/${movieId}/credits`
+    );
+    dispatch(setMovieActors(response.data));
+  } catch (error) {
+    console.error("Fetch movie actors: ", error);
     console.error("Error message: ", error.message);
     console.error("Error response: ", error.response);
   }
