@@ -24,12 +24,19 @@ import { ActorCarousel } from "../components/Movie/ActorCarousel";
 export const MoviePage = () => {
   const { movieId } = useParams();
   const dispatch = useDispatch();
-  const movieData = useSelector((state) => state.movies.movieDetails);
+  const movieData = useSelector((state) => state.movies.movieDetails) || {};
+
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const similarMoviesData = useSelector((state) => state.movies.similarMovies);
   const movieActorsData = useSelector((state) => state.movies.movieActors);
-
   const [loading, setLoading] = useState(true);
+
+  const posterPath = movieData.poster_path || "default_poster_path";
+  const original_title = movieData.original_title || "default_original_title";
+  const overview = movieData.overview || "default_overview";
+  const vote_average = movieData.vote_average || "default_vote_average";
+  const release_date = movieData.release_date || "default_release_date";
+  const genres = movieData.genres || [];
 
   useEffect(() => {
     dispatch(fetchMovieDetails(movieId));
@@ -39,6 +46,10 @@ export const MoviePage = () => {
         console.error(error);
         setLoading(false);
       });
+  }, [movieId]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, [movieId]);
 
   const handleAddToFavorites = () => {
@@ -81,7 +92,7 @@ export const MoviePage = () => {
           width="100%"
           height="100%"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://image.tmdb.org/t/p/original/${movieData.poster_path})`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://image.tmdb.org/t/p/original/${posterPath})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             opacity: 0.2,
@@ -91,22 +102,22 @@ export const MoviePage = () => {
         <Box p={[5, 20]} style={{ zIndex: 2, position: "relative" }}>
           <Flex direction={["column", "row"]} gap={10}>
             <Image
-              src={`https://image.tmdb.org/t/p/original/${movieData.poster_path}`}
-              alt={movieData.original_title}
+              src={`https://image.tmdb.org/t/p/original/${posterPath}`}
+              alt={original_title}
               width={["100%", "300px"]}
             />
 
             <Flex gap={5} direction="column">
               <Flex gap={5}>
                 <Heading color="white" fontSize={["xl", "2xl"]}>
-                  {movieData.original_title}
+                  {original_title}
                 </Heading>
                 <Text fontSize={["lg", "3xl"]} color="white">
-                  ({movieData.release_date.slice(0, 4)})
+                  ({release_date.slice(0, 4)})
                 </Text>
               </Flex>
               <Flex gap={2} flexWrap="wrap">
-                {movieData.genres.map((genre) => (
+                {genres.map((genre) => (
                   <Text key={genre.id} color="white">
                     {genre.name} /
                   </Text>
@@ -126,7 +137,7 @@ export const MoviePage = () => {
                   fontWeight="bold"
                   boxShadow="0px 0px 10px rgba(0, 0, 0, 0.3)"
                 >
-                  {Math.round(movieData.vote_average * 10)}%
+                  {Math.round(vote_average * 10)}%
                 </Badge>
                 <Tooltip label={"Add to favorites"}>
                   <IconButton
@@ -143,7 +154,7 @@ export const MoviePage = () => {
               <Text fontSize={["lg", "3xl"]} color="white" mt={5}>
                 Overview
               </Text>
-              <Text color="white">{movieData.overview}</Text>
+              <Text color="white">{overview}</Text>
             </Flex>
           </Flex>
         </Box>
