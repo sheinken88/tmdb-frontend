@@ -123,35 +123,33 @@ export const Navbar = ({ setKey }) => {
 
             <Box mr={10}>
               <form onSubmit={handleOnSubmit}>
-                <form onSubmit={handleOnSubmit}>
-                  <Flex>
-                    <Input
-                      placeholder="Search"
-                      variant="filled"
-                      size="md"
-                      borderRadius="full"
-                      bg="white"
-                      boxShadow="md"
-                      _hover={{ boxShadow: "lg" }}
-                      _focus={{ boxShadow: "lg", color: "white" }}
-                      value={searchInput.value}
-                      onChange={searchInput.onChange}
-                    />
-                    <Button
-                      type="submit"
-                      size="md"
-                      ml={2}
-                      px={8}
-                      borderRadius="full"
-                      bg="blue.500"
-                      color="white"
-                      _hover={{ bg: "blue.600" }}
-                      _active={{ bg: "blue.700" }}
-                    >
-                      Search
-                    </Button>
-                  </Flex>
-                </form>
+                <Flex>
+                  <Input
+                    placeholder="Search"
+                    variant="filled"
+                    size="md"
+                    borderRadius="full"
+                    bg="white"
+                    boxShadow="md"
+                    _hover={{ boxShadow: "lg" }}
+                    _focus={{ boxShadow: "lg", color: "white" }}
+                    value={searchInput.value}
+                    onChange={searchInput.onChange}
+                  />
+                  <Button
+                    type="submit"
+                    size="md"
+                    ml={2}
+                    px={8}
+                    borderRadius="full"
+                    bg="blue.500"
+                    color="white"
+                    _hover={{ bg: "blue.600" }}
+                    _active={{ bg: "blue.700" }}
+                  >
+                    Search
+                  </Button>
+                </Flex>
               </form>
             </Box>
 
