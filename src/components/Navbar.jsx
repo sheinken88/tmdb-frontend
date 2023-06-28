@@ -159,12 +159,23 @@ export const Navbar = ({ setKey }) => {
                   <MenuButton fontSize="2xl" color="white">
                     {userData.userName}
                   </MenuButton>
-                  <MenuList zIndex="1000">
-                    <MenuItem as={Link} to="/favorites">
+                  <MenuList zIndex="1000" bg="#2B2D42">
+                    <MenuItem
+                      as={Link}
+                      to="/favorites"
+                      bg="#2B2D42"
+                      color="white"
+                    >
                       My list
                     </MenuItem>
                     <MenuDivider />
-                    <MenuItem as={Link} to="/" onClick={handleLogout}>
+                    <MenuItem
+                      bg="#2B2D42"
+                      color="white"
+                      as={Link}
+                      to="/"
+                      onClick={handleLogout}
+                    >
                       Log out
                     </MenuItem>
                   </MenuList>
