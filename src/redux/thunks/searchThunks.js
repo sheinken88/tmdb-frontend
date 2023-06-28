@@ -4,7 +4,7 @@ import {
   searchSuccess,
   searchFailure,
 } from "../slices/searchSlice";
-import * as settings from "../../settings";
+
 axios.defaults.withCredentials = true;
 
 export const searchMovies = (query) => async (dispatch) => {
@@ -12,7 +12,7 @@ export const searchMovies = (query) => async (dispatch) => {
 
   try {
     const response = await axios.get(
-      `${settings.axiosURL}/search?query=${query}`
+      `${import.meta.env.VITE_API_URL}/search?query=${query}`
     );
     dispatch(searchSuccess(response.data));
   } catch (error) {

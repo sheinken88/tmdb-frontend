@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "./redux/slices/userSlice";
 import axios from "axios";
-import * as settings from "./settings";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -31,9 +30,12 @@ function App() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const response = await axios.get(`${settings.axiosURL}/users/me`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/users/me`,
+          {
+            withCredentials: true,
+          }
+        );
         if (response.status === 200) {
           dispatch(login(response.data));
         }

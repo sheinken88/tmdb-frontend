@@ -10,12 +10,14 @@ import {
   appendUpcomingMovies,
   setMovieActors,
 } from "../slices/movieSlice";
-import * as settings from "../../settings";
+
 axios.defaults.withCredentials = true;
 
 export const fetchMovieDetails = (movieId) => async (dispatch) => {
   try {
-    const response = await axios.get(`${settings.axiosURL}/movies/${movieId}`);
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/movies/${movieId}`
+    );
     dispatch(setMovieDetails(response.data.movieDetails));
     dispatch(setSimilarMovies(response.data.similarMovies.results));
   } catch (error) {
@@ -28,7 +30,7 @@ export const fetchMovieDetails = (movieId) => async (dispatch) => {
 export const fetchMovieActors = (movieId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${settings.axiosURL}/movies/${movieId}/credits`
+      `${import.meta.env.VITE_API_URL}/movies/${movieId}/credits`
     );
     dispatch(setMovieActors(response.data));
   } catch (error) {
@@ -43,7 +45,7 @@ export const fetchPopularMovies =
   async (dispatch) => {
     try {
       const response = await axios.get(
-        `${settings.axiosURL}/movies/popular?page=${page}`
+        `${import.meta.env.VITE_API_URL}/movies/popular?page=${page}`
       );
       if (page === 1) {
         dispatch(setPopularMovies(response.data.results));
@@ -60,7 +62,7 @@ export const fetchTopRatedMovies =
   async (dispatch) => {
     try {
       const response = await axios.get(
-        `${settings.axiosURL}/movies/top_rated?page=${page}`
+        `${import.meta.env.VITE_API_URL}/movies/top_rated?page=${page}`
       );
       if (page === 1) {
         dispatch(setTopRatedMovies(response.data.results));
@@ -77,7 +79,7 @@ export const fetchUpcomingMovies =
   async (dispatch) => {
     try {
       const response = await axios.get(
-        `${settings.axiosURL}/movies/upcoming?page=${page}`
+        `${import.meta.env.VITE_API_URL}/movies/upcoming?page=${page}`
       );
       if (page === 1) {
         dispatch(setUpcomingMovies(response.data.results));

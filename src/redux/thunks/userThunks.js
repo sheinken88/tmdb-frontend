@@ -6,18 +6,17 @@ import {
   loadFavorites,
   removeFromFavorites,
 } from "../slices/userSlice";
-import * as settings from "../../settings";
 
 axios.defaults.withCredentials = true;
 
 export const userLogin = (email, password) => async (dispatch) => {
   try {
-    await axios.post(`${settings.axiosURL}/users/login`, {
+    await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, {
       email,
       password,
     });
 
-    const payload = await axios.get(`${settings.axiosURL}/users/me`);
+    const payload = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`);
 
     const userData = payload.data;
 
@@ -31,7 +30,7 @@ export const userLogin = (email, password) => async (dispatch) => {
 
 export const userRegister = (userName, email, password) => async () => {
   try {
-    await axios.post(`${settings.axiosURL}/users/signup`, {
+    await axios.post(`${import.meta.env.VITE_API_URL}/users/signup`, {
       userName,
       email,
       password,
@@ -43,7 +42,7 @@ export const userRegister = (userName, email, password) => async () => {
 
 export const userLogout = () => async (dispatch) => {
   try {
-    await axios.post(`${settings.axiosURL}/users/logout`);
+    await axios.post(`${import.meta.env.VITE_API_URL}/users/logout`);
 
     dispatch(logout());
   } catch (error) {
@@ -55,7 +54,7 @@ export const addMovieToFavorites = (movieId) => async (dispatch, getState) => {
   const { user } = getState();
   try {
     const response = await axios.put(
-      `${settings.axiosURL}/users/${user.userData.id}/addFavorite`,
+      `${import.meta.env.VITE_API_URL}/users/${user.userData.id}/addFavorite`,
       { movieId: parseInt(movieId) }
     );
 
@@ -72,7 +71,9 @@ export const removeMovieFromFavorites =
     const { user } = getState();
     try {
       const response = await axios.put(
-        `${settings.axiosURL}/users/${user.userData.id}/removeFavorite`,
+        `${import.meta.env.VITE_API_URL}/users/${
+          user.userData.id
+        }/removeFavorite`,
         { movieId }
       );
       const { data } = response;
@@ -87,7 +88,7 @@ export const fetchFavorites = () => async (dispatch, getState) => {
   const { user } = getState();
   try {
     const response = await axios.get(
-      `${settings.axiosURL}/users/${user.userData.id}/favorites`
+      `${import.meta.env.VITE_API_URL}/users/${user.userData.id}/favorites`
     );
     const { data } = response;
     dispatch(loadFavorites(data));
