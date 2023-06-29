@@ -15,7 +15,7 @@ const userSlice = createSlice({
     login: (state, action) => {
       state.isAuthenticated = true;
       state.userData = action.payload;
-      state.favorites = action.payload.favorites;
+      state.favorites = action.payload.favorites || [];
     },
     loginError: (state, action) => {
       state.error = action.payload;

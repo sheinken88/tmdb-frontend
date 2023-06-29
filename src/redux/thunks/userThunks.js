@@ -7,21 +7,38 @@ import {
   removeFromFavorites,
 } from "../slices/userSlice";
 
-axios.defaults.withCredentials = true;
-
 export const userLogin = (email, password) => async (dispatch) => {
   try {
-    await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, {
-      email,
-      password,
-    });
+    const loginResponse = await axios.post(
+      `${import.meta.env.VITE_API_URL}/users/login`,
+      {
+        email,
+        password,
+      }
+    );
 
-    const payload = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`);
+    const { token, user } = loginResponse.data;
 
-    const userData = payload.data;
+    console.log("Login response data:", loginResponse.data);
 
-    await dispatch(login(userData));
-    await dispatch(clearError());
+    localStorage.setItem("jwt", token);
+    console.log("Token after storing:", localStorage.getItem("jwt"));
+
+    dispatch(login(user));
+    dispatch(clearError());
+
+    const fetchUserResponse = await axios.get(
+      `${import.meta.env.VITE_API_URL}/users/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      }
+    );
+
+    if (fetchUserResponse.status === 200) {
+      dispatch(login(fetchUserResponse.data));
+    }
   } catch (error) {
     console.error("login error: ", error);
     throw new Error("Incorrect email or password. Please try again.");
@@ -55,7 +72,12 @@ export const addMovieToFavorites = (movieId) => async (dispatch, getState) => {
   try {
     const response = await axios.put(
       `${import.meta.env.VITE_API_URL}/users/${user.userData.id}/addFavorite`,
-      { movieId: parseInt(movieId) }
+      { movieId: parseInt(movieId) },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      }
     );
 
     const { data } = response;
@@ -74,7 +96,12 @@ export const removeMovieFromFavorites =
         `${import.meta.env.VITE_API_URL}/users/${
           user.userData.id
         }/removeFavorite`,
-        { movieId }
+        { movieId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          },
+        }
       );
       const { data } = response;
 
@@ -88,7 +115,12 @@ export const fetchFavorites = () => async (dispatch, getState) => {
   const { user } = getState();
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/users/${user.userData.id}/favorites`
+      `${import.meta.env.VITE_API_URL}/users/${user.userData.id}/favorites`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      }
     );
     const { data } = response;
     dispatch(loadFavorites(data));
