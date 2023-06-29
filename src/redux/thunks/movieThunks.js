@@ -11,8 +11,6 @@ import {
   setMovieActors,
 } from "../slices/movieSlice";
 
-axios.defaults.withCredentials = true;
-
 export const fetchMovieDetails = (movieId) => async (dispatch) => {
   try {
     const response = await axios.get(

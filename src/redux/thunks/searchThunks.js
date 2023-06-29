@@ -5,8 +5,6 @@ import {
   searchFailure,
 } from "../slices/searchSlice";
 
-axios.defaults.withCredentials = true;
-
 export const searchMovies = (query) => async (dispatch) => {
   dispatch(startSearch());
 

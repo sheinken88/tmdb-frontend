@@ -30,14 +30,18 @@ function App() {
   useEffect(() => {
     async function fetchUser() {
       try {
+        const token = localStorage.getItem("jwt");
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/users/me`,
           {
-            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
+        console.log("response.data: ", response.data);
         if (response.status === 200) {
-          dispatch(login(response.data));
+          dispatch(login(response.data.payload));
         }
       } catch (error) {
         console.error(error);
